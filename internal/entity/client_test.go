@@ -2,25 +2,25 @@ package entity
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestNewClient(t *testing.T) {
+func TestNewClientWithValidData(t *testing.T) {
 	client, err := NewClient("John Doe", "email@test.com")
+	assert.Nil(t, err)
+	assert.NotNil(t, client)
+	assert.Equal(t, 0, client.Points)
+}
 
-	if err != nil {
-		t.Errorf("unexpected error: %v", err)
-	}
+func TestNewClientWithInvalidData(t *testing.T) {
+	client, err := NewClient("", "j@j.com")
+	assert.Nil(t, client)
+	assert.NotNil(t, err)
+	assert.Error(t, err, "client name is required")
 
-	if client.ID == "" {
-		t.Errorf("unexpected empty ID")
-	}
-	if client.Name != "John Doe" {
-		t.Errorf("unexpected name: %v", client.Name)
-	}
-	if client.Email != "email@test.com" {
-		t.Errorf("unexpected email: %v", client.Email)
-	}
-	if client.Points != 0 {
-		t.Errorf("unexpected points: %v", client.Points)
-	}
+	client, err = NewClient("John doe", "")
+	assert.Nil(t, client)
+	assert.NotNil(t, err)
+	assert.Error(t, err, "client email is required")
 }
