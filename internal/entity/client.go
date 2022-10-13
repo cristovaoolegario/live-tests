@@ -20,11 +20,20 @@ func NewClient(name, email string) (*Client, error) {
 		Email:  email,
 		Points: 0,
 	}
-	if client.Name == "" {
-		return nil, errors.New("client name is required")
+
+	if err := client.Validate(); err != nil {
+		return nil, err
 	}
-	if client.Email == "" {
-		return nil, errors.New("client email is required")
-	}
+
 	return client, nil
+}
+
+func (c *Client) Validate() error {
+	if c.Name == "" {
+		return errors.New("client name is required")
+	}
+	if c.Email == "" {
+		return errors.New("client email is required")
+	}
+	return nil
 }
