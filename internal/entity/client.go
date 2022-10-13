@@ -37,3 +37,11 @@ func (c *Client) Validate() error {
 	}
 	return nil
 }
+
+func (c *Client) AddPoints(points int) error {
+	if points < 0 {
+		return errors.New("points must be greater than zero")
+	}
+	c.Points += points
+	return nil
+}
