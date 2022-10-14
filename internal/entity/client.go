@@ -6,6 +6,10 @@ import (
 	"github.com/google/uuid"
 )
 
+type ClientRepositoryInterface interface {
+	Save(client *Client) error
+}
+
 type Client struct {
 	ID     string
 	Name   string
